@@ -1,0 +1,158 @@
+@startuml
+
+namespace Player{
+  class PlayerParameter<<struct>>{
+    + int health
+    + int battery
+    + int movespeed
+  }
+
+  class PlayerLoadage{
+    + Weapon weapon
+    + List<Item> hasItemList
+    + int canMaxHasSpace
+    + int currentUseSpace
+  }
+
+  class PlayerCore{
+    + IObserve<bool> IsAlive
+    + IObserve<bool> IsLightOn
+    + IObserve<Damage> OnDamaged
+    + IObserve<Weapon> EquipWeapon
+    - PlayerParameter DefailtPlayerPram
+    + IObserve<PlayerParameter> CurrentPlayerPram
+    + IObserve<PlayerLoadage> CurrentPlayerLoadge
+  }
+
+  namespace InputImpls{
+    class AllInputEventProvider
+    class DebugKeyInputEventProvider
+
+    AllInputEventProvider --|> Player.IInputEventProvider
+    DebugKeyInputEventProvider --|> Player.IInputEventProvider
+  }
+
+  interface IInputEventProvider{
+    + IObserve<bool> JumpButton
+    + IObserve<bool> AttackButton
+    + IObserve<bool> AttractButton
+    + IObserve<Vecter3> MoveDirection
+  }
+
+  abstract class BasePlayerCompornent{
+    # void Initialize
+  }
+
+  BasePlayerCompornent --> PlayerCore
+  BasePlayerCompornent --> IInputEventProvider
+
+  class PlayerMover{
+    + IObserve IsRunning
+  }
+  class PlayerWepon{
+    + PlayerAttacker playerAttacker
+    + IObserve IsAttack
+  }
+  class PlayerCharacterController{
+    + IObserve IsMove
+  }
+
+  PlayerMover --|> BasePlayerCompornent
+  PlayerWepon --|> BasePlayerCompornent
+
+  PlayerMover --> PlayerCore
+  PlayerMover -up-> PlayerCharacterController
+  PlayerWepon -up-> PlayerCharacterController
+
+  PlayerCore --|> Damages.IDamageApplicable
+  PlayerCore --|> Damages.IDieable
+
+  PlayerCore ..> Item.ItemBase
+}
+
+namespace Enemy{
+  abstract class BaseEnemyCompornent{
+    + void Initialize()
+  }
+
+  class EnmeyParameter<<struct>>{
+    + int health
+    + int movespeed
+  }
+
+  class EnemyCore{
+    + IObserve<bool> IsAlive
+    + IObserve<Damage> OnDamaged
+    - EnmeyParameter DefailtEnemyPram
+    + IObserve<EnmeyParameter> CurrentEnemyPram
+  }
+}
+
+namespace Attacks{
+    interface IAttacker
+
+    namespace AttckerImpls{
+
+        class PlayerAttacker <<struct>>
+
+        class NonPlayerAttacker <<struct>>
+
+        PlayerAttacker --r|> Attacks.IAttacker
+        NonPlayerAttacker --r|> Attacks.IAttacker
+    }
+
+    abstract class BaseBullet{
+      + IAttacker attcker
+      # float damagePower
+    }
+    BaseBullet -> IAttacker
+    BaseBullet ..> Damages.Damage
+    BaseBullet ..> Damages.IDamageApplicable
+    BaseBullet ..> Damages.IDieable
+    namespace BulletImpls{
+        class NomalBullet
+
+        NomalBullet --|> Attacks.BaseBullet
+    }
+}
+
+namespace Damages{
+    interface IDamageApplicable{
+    + void ApplyDamage(Damage damage)
+    }
+
+    IDamageApplicable --l> Damage
+
+    class Damage<<struct>>{
+      + IAttacker attacker
+      + float value
+    }
+
+    Damage -> Attacks.IAttacker
+
+    interface IDieable{
+        + void Kill()
+    }
+
+}
+
+namespace Item{
+  interface IPickUpable
+
+  abstract class ItemBase{
+    + ItemType
+  }
+
+  enum ItemType
+
+  IPickUpable -|> ItemBase
+  ItemBase -> ItemType
+}
+
+namespace GameManager{
+  namespace Scenario{
+
+  }
+}
+
+@enduml
