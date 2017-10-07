@@ -956,7 +956,7 @@ GameObject:
   - component: {fileID: 54047162681898820}
   - component: {fileID: 195122131432594256}
   - component: {fileID: 114411732947056348}
-  - component: {fileID: 114202437718828400}
+  - component: {fileID: 114153447834436742}
   m_Layer: 0
   m_Name: EnemyBase
   m_TagString: Enemy
@@ -2240,7 +2240,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1143279564970478}
-  m_LocalRotation: {x: 0.53267515, y: 0.07034045, z: 0.83613265, w: -0.11041513}
+  m_LocalRotation: {x: 0.5326752, y: 0.070340455, z: 0.83613276, w: -0.110415146}
   m_LocalPosition: {x: 0.000022271464, y: -0.00006150465, z: 0.026027026}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2478,7 +2478,7 @@ Animator:
   m_GameObject: {fileID: 1746067342473762}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: b235179bd2a63d1468dd430670338c55, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2486,7 +2486,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114202437718828400
+--- !u!114 &114153447834436742
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2494,10 +2494,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1746067342473762}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c5335f0882fe4d478883cc8c58ce906, type: 3}
+  m_Script: {fileID: 11500000, guid: 23fb71c749caa8643a95a0801629a2a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  walkingSpeed: 1
 --- !u!114 &114411732947056348
 MonoBehaviour:
   m_ObjectHideFlags: 1
