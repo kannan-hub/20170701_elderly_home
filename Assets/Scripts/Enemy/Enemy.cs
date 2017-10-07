@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Interface.Character;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace Enemy
@@ -8,22 +9,82 @@ namespace Enemy
     /// パラメーターなど
     /// </summary>
     [RequireComponent(typeof(NavMeshAgent))]
-    public class Enemy : MonoBehaviour
+    public class Enemy : MonoBehaviour, ICharacter
     {
-        [SerializeField, Range(0f, 10f)]
-        private float walkingSpeed;
+        /// <summary>
+        /// 敵かどうか
+        /// </summary>
+        public bool isEnemy
+        {
+            get { return true; }
+        }
 
-        //未実装だよ、敵の要素実装時に決めるよ
-//        [SerializeField]
-//        private float runningSpeed;
-        
+        /// <summary>
+        /// パラメータ
+        /// </summary>
+        private EnemyParameter enemyParameter;
+
+        public IParameter Parameter
+        {
+            get { return enemyParameter; }
+        }
+
+        /// <summary>
+        /// 攻撃
+        /// </summary>
+        private EnemyAttack enemyAttack;
+
+        public IAttack Attack
+        {
+            get { return enemyAttack; }
+        }
+
+        /// <summary>
+        /// ダメージ処理
+        /// </summary>
+        private EnemyDamage enemyDamage;
+
+        public IDamage Damage
+        {
+            get { return enemyDamage; }
+        }
+
+        [SerializeField, Range(0, 100)]
+        private int hp;
+
+        [SerializeField]
+        private bool motal = true;
+
+        [SerializeField, Range(0f, 10f)]
+        private float baseSpeed;
+
+        [SerializeField, Range(0f, 10f)]
+        private float runMultiplier;
+
         [HideInInspector]
         private NavMeshAgent agent;
 
+        /// <summary>
+        /// 初期化処理
+        /// </summary>
         private void Awake()
         {
+            enemyParameter = new EnemyParameter(baseSpeed, runMultiplier, hp, motal);
+            enemyAttack = new EnemyAttack(100f); //ToDo: 仮の値計算する
+            enemyDamage = new EnemyDamage(enemyParameter);
+
             agent = GetComponent<NavMeshAgent>();
-            agent.speed = walkingSpeed;
+            agent.speed = enemyParameter.BaseSpeed;
+        }
+
+        /// <summary>
+        /// 接触時の処理
+        /// </summary>
+        /// <param name="other"></param>
+        private void OnCollisionEnter(Collision other)
+        {
+            var damage = other.gameObject.GetComponent<IDamage>();
+            if(damage != null) damage.ApplyDamage(enemyAttack.AttackPower);
         }
     }
 }

@@ -18,7 +18,7 @@
         /// <summary>
         /// HitPoint 体力です
         /// </summary>
-        int Hp { get; }
+        int Hp { get; set; }
 
         /// <summary>
         /// 死ぬかどうか
