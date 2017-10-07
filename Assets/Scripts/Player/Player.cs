@@ -1,4 +1,6 @@
-﻿using UniRx;
+﻿using System;
+using Interface.Character;
+using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
@@ -6,65 +8,89 @@ using UnityStandardAssets.Characters.FirstPerson;
 namespace Player
 {
     /// <summary>
-    /// プレイヤー表示に関すること
+    /// プレイヤーモデル
     /// </summary>
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, ICharacter
     {
-        [SerializeField, Range(0f, 10f)]
-        private float forwardSpeed;
+        /// <summary>
+        /// 敵かどうか
+        /// </summary>
+        public bool isEnemy
+        {
+            get { return false; }
+        }
+
+        /// <summary>
+        /// パラメータ
+        /// </summary>
+        private PlayerParameter playerParameter;
+
+        public IParameter Parameter
+        {
+            get { return playerParameter; }
+        }
+
+        /// <summary>
+        /// 攻撃
+        /// </summary>
+        private PlayerAttack playerAttack;
+
+        public IAttack Attack
+        {
+            get { return playerAttack; }
+        }
+
+        /// <summary>
+        /// ダメージ処理
+        /// </summary>
+        private PlayerDmage playerDamage;
+
+        public IDamage Damage
+        {
+            get { return playerDamage; }
+        }
+        
+        [SerializeField, Range(0, 100)]
+        private int hp;
 
         [SerializeField, Range(0f, 10f)]
-        private float backwardSpeed;
+        private float baseSpeed;
 
         [SerializeField, Range(0f, 10f)]
-        private float strafeSpeed;
-
-        [SerializeField, Range(0f, 5f)]
         private float runMultiplier;
+
+        [SerializeField]
+        private ObservableCollisionTrigger collisionTrigger;
 
         [HideInInspector]
         private RigidbodyFirstPersonController controller;
 
         private void Awake()
         {
+            playerParameter = new PlayerParameter(baseSpeed, runMultiplier, hp);
+            playerAttack = new PlayerAttack(100f); //ToDo: 仮の値計算する
+            playerDamage = new PlayerDmage(playerParameter);
+
             controller = GetComponent<RigidbodyFirstPersonController>();
             controller.movementSettings = new RigidbodyFirstPersonController.MovementSettings
             {
-                ForwardSpeed = forwardSpeed,
-                BackwardSpeed = backwardSpeed,
-                StrafeSpeed = strafeSpeed,
-                RunMultiplier = runMultiplier
+                ForwardSpeed = playerParameter.BaseSpeed,
+                BackwardSpeed = playerParameter.BaseSpeed/2,
+                StrafeSpeed = playerParameter.BaseSpeed/2,
+                RunMultiplier = playerParameter.RunMultiplier
             };
         }
-
-        //TODO:パラメーターと動作状態は分割すべきかと
-
-        /// <summary>
-        /// 生存しているかどうか
-        /// </summary>
-        private readonly ReactiveProperty<bool> exsist = new BoolReactiveProperty(true);
-
-        /// <summary>
-        /// 生存しているかどうかを通知する
-        /// </summary>
-        public IObservable<bool> Exsist
-        {
-            get { return exsist; }
-        }
-
-        [SerializeField]
-        private ObservableCollisionTrigger collisionTrigger;
-
+        
         private void Start()
         {
-            collisionTrigger.OnCollisionEnterAsObservable().Subscribe(colliion =>
-            {
-                if (colliion.transform.CompareTag("Enemy"))
+            //接触時処理
+            collisionTrigger.OnCollisionEnterAsObservable()
+                .ThrottleFirst(TimeSpan.FromSeconds(3))
+                .Subscribe(other =>
                 {
-                    Debug.Log("DEAD!!!");
-                    //Destroy(this);
-                }
-            }).AddTo(this);
+                    var damage = other.gameObject.GetComponent<IDamage>();
+                    if (damage != null) damage.ApplyDamage(playerAttack.AttackPower);
+                }).AddTo(this);
         }
     }
 }

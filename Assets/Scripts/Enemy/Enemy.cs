@@ -1,11 +1,14 @@
-﻿using Interface.Character;
+﻿using System;
+using Interface.Character;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Enemy
 {
     /// <summary>
-    /// 敵キャラの表示に関すること
+    /// 敵キャラモデル
     /// パラメーターなど
     /// </summary>
     [RequireComponent(typeof(NavMeshAgent))]
@@ -61,6 +64,9 @@ namespace Enemy
         [SerializeField, Range(0f, 10f)]
         private float runMultiplier;
 
+        [SerializeField]
+        private ObservableCollisionTrigger collisionTrigger;
+
         [HideInInspector]
         private NavMeshAgent agent;
 
@@ -77,14 +83,16 @@ namespace Enemy
             agent.speed = enemyParameter.BaseSpeed;
         }
 
-        /// <summary>
-        /// 接触時の処理
-        /// </summary>
-        /// <param name="other"></param>
-        private void OnCollisionEnter(Collision other)
+        private void Start()
         {
-            var damage = other.gameObject.GetComponent<IDamage>();
-            if(damage != null) damage.ApplyDamage(enemyAttack.AttackPower);
+            //接触時処理
+            collisionTrigger.OnCollisionEnterAsObservable()
+                .ThrottleFirst(TimeSpan.FromSeconds(3))
+                .Subscribe(other =>
+                {
+                    var damage = other.gameObject.GetComponent<IDamage>();
+                    if (damage != null) damage.ApplyDamage(enemyAttack.AttackPower);
+                }).AddTo(this);
         }
     }
 }
