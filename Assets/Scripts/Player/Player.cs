@@ -3,12 +3,12 @@ using UniRx.Triggers;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
 
-namespace Character
+namespace Player
 {
     /// <summary>
     /// プレイヤー表示に関すること
     /// </summary>
-    public class PlayerView : MonoBehaviour
+    public class Player : MonoBehaviour
     {
         [SerializeField, Range(0f, 10f)]
         private float forwardSpeed;
@@ -39,10 +39,13 @@ namespace Character
 
         //TODO:パラメーターと動作状態は分割すべきかと
 
+        /// <summary>
+        /// 生存しているかどうか
+        /// </summary>
         private readonly ReactiveProperty<bool> exsist = new BoolReactiveProperty(true);
 
         /// <summary>
-        /// 生存しているかどうか
+        /// 生存しているかどうかを通知する
         /// </summary>
         public IObservable<bool> Exsist
         {

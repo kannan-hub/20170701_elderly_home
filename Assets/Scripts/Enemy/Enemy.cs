@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-namespace Character
+namespace Enemy
 {
     /// <summary>
     /// 敵キャラの表示に関すること
     /// パラメーターなど
     /// </summary>
     [RequireComponent(typeof(NavMeshAgent))]
-    public class EnemyView : MonoBehaviour
+    public class Enemy : MonoBehaviour
     {
         [SerializeField, Range(0f, 10f)]
         private float walkingSpeed;
