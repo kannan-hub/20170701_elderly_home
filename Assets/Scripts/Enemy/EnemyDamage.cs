@@ -1,29 +1,32 @@
-﻿using Interface.Character;
+﻿using Base.Character;
+using Interface.Character;
+using UnityEngine;
 
 namespace Enemy
 {
     /// <summary>
     /// 敵のダメージ処理
     /// </summary>
-    public class EnemyDamage : IDamage
+    public class EnemyDamage : DamageBase
     {
         /// <summary>
         /// 受ける側のパラメータ
         /// </summary>
-        public IParameter DamageParameter { get; private set; }
+        [SerializeField]
+        private EnemyParameter enemyParameter;
 
-        /// <summary>
-        /// 実際のダメージ処理
-        /// </summary>
-        /// <param name="damage"></param>
-        public void ApplyDamage(float damage)
+        public override IParameter Parameter
         {
-            DamageParameter.Hp -= (int)damage;
+            get { return enemyParameter; }
         }
 
-        public EnemyDamage(IParameter damageParameter)
+        /// <summary>
+        /// 自分へのダメージ処理
+        /// </summary>
+        /// <param name="damage"></param>
+        public override void ApplyDamage(float damage)
         {
-            DamageParameter = damageParameter;
+            Parameter.Dmage((int) damage);
         }
     }
 }

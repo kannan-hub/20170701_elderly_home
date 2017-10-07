@@ -1,4 +1,6 @@
 ﻿using System;
+using Base.Character;
+using Enemy;
 using Interface.Character;
 using UniRx;
 using UniRx.Triggers;
@@ -10,12 +12,12 @@ namespace Player
     /// <summary>
     /// プレイヤーモデル
     /// </summary>
-    public class Player : MonoBehaviour, ICharacter
+    public class Player : CharacterBase
     {
         /// <summary>
         /// 敵かどうか
         /// </summary>
-        public bool isEnemy
+        public override bool isEnemy
         {
             get { return false; }
         }
@@ -23,9 +25,10 @@ namespace Player
         /// <summary>
         /// パラメータ
         /// </summary>
+        [SerializeField]
         private PlayerParameter playerParameter;
 
-        public IParameter Parameter
+        public override IParameter Parameter
         {
             get { return playerParameter; }
         }
@@ -33,9 +36,10 @@ namespace Player
         /// <summary>
         /// 攻撃
         /// </summary>
+        [SerializeField]
         private PlayerAttack playerAttack;
 
-        public IAttack Attack
+        public override IAttack Attack
         {
             get { return playerAttack; }
         }
@@ -43,22 +47,14 @@ namespace Player
         /// <summary>
         /// ダメージ処理
         /// </summary>
-        private PlayerDmage playerDamage;
+        [SerializeField]
+        private PlayerDamage playerDamage;
 
-        public IDamage Damage
+        public override IDamage Damage
         {
             get { return playerDamage; }
         }
         
-        [SerializeField, Range(0, 100)]
-        private int hp;
-
-        [SerializeField, Range(0f, 10f)]
-        private float baseSpeed;
-
-        [SerializeField, Range(0f, 10f)]
-        private float runMultiplier;
-
         [SerializeField]
         private ObservableCollisionTrigger collisionTrigger;
 
@@ -67,10 +63,6 @@ namespace Player
 
         private void Awake()
         {
-            playerParameter = new PlayerParameter(baseSpeed, runMultiplier, hp);
-            playerAttack = new PlayerAttack(100f); //ToDo: 仮の値計算する
-            playerDamage = new PlayerDmage(playerParameter);
-
             controller = GetComponent<RigidbodyFirstPersonController>();
             controller.movementSettings = new RigidbodyFirstPersonController.MovementSettings
             {
@@ -85,11 +77,12 @@ namespace Player
         {
             //接触時処理
             collisionTrigger.OnCollisionEnterAsObservable()
+                .Where(other => other.collider.CompareTag("Enemy"))
                 .ThrottleFirst(TimeSpan.FromSeconds(3))
                 .Subscribe(other =>
                 {
-                    var damage = other.gameObject.GetComponent<IDamage>();
-                    if (damage != null) damage.ApplyDamage(playerAttack.AttackPower);
+                    var damage = other.gameObject.GetComponent<EnemyDamage>();
+                    if (damage != null) damage.ApplyDamage(playerAttack.CalcDamage());
                 }).AddTo(this);
         }
     }

@@ -1,20 +1,26 @@
-﻿using Interface.Character;
+﻿using Base.Character;
+using Interface.Character;
+using UnityEngine;
 
 namespace Enemy
 {
     /// <summary>
     /// 敵の攻撃クラス
     /// </summary>
-    public class EnemyAttack : IAttack
+    public class EnemyAttack : AttackBase
     {
-        /// <summary>
-        /// 最終攻撃力
-        /// </summary>
-        public float AttackPower { get; private set; }
+        [SerializeField]
+        private EnemyParameter enemyParameter;
 
-        public EnemyAttack(float attackPower)
+        public override IParameter Parameter
         {
-            AttackPower = attackPower;
+            get { return enemyParameter; }
+        }
+
+        public override int CalcDamage()
+        {
+            //ひとまずそのまま返す
+            return (int)Parameter.Attack;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using Base.Character;
 using Interface.Character;
+using Player;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -12,12 +14,12 @@ namespace Enemy
     /// パラメーターなど
     /// </summary>
     [RequireComponent(typeof(NavMeshAgent))]
-    public class Enemy : MonoBehaviour, ICharacter
+    public class Enemy : CharacterBase
     {
         /// <summary>
         /// 敵かどうか
         /// </summary>
-        public bool isEnemy
+        public override bool isEnemy
         {
             get { return true; }
         }
@@ -25,9 +27,10 @@ namespace Enemy
         /// <summary>
         /// パラメータ
         /// </summary>
+        [SerializeField]
         private EnemyParameter enemyParameter;
 
-        public IParameter Parameter
+        public override IParameter Parameter
         {
             get { return enemyParameter; }
         }
@@ -35,9 +38,10 @@ namespace Enemy
         /// <summary>
         /// 攻撃
         /// </summary>
+        [SerializeField]
         private EnemyAttack enemyAttack;
 
-        public IAttack Attack
+        public override IAttack Attack
         {
             get { return enemyAttack; }
         }
@@ -45,24 +49,13 @@ namespace Enemy
         /// <summary>
         /// ダメージ処理
         /// </summary>
+        [SerializeField]
         private EnemyDamage enemyDamage;
 
-        public IDamage Damage
+        public override IDamage Damage
         {
             get { return enemyDamage; }
         }
-
-        [SerializeField, Range(0, 100)]
-        private int hp;
-
-        [SerializeField]
-        private bool motal = true;
-
-        [SerializeField, Range(0f, 10f)]
-        private float baseSpeed;
-
-        [SerializeField, Range(0f, 10f)]
-        private float runMultiplier;
 
         [SerializeField]
         private ObservableCollisionTrigger collisionTrigger;
@@ -75,10 +68,6 @@ namespace Enemy
         /// </summary>
         private void Awake()
         {
-            enemyParameter = new EnemyParameter(baseSpeed, runMultiplier, hp, motal);
-            enemyAttack = new EnemyAttack(100f); //ToDo: 仮の値計算する
-            enemyDamage = new EnemyDamage(enemyParameter);
-
             agent = GetComponent<NavMeshAgent>();
             agent.speed = enemyParameter.BaseSpeed;
         }
@@ -87,11 +76,12 @@ namespace Enemy
         {
             //接触時処理
             collisionTrigger.OnCollisionEnterAsObservable()
+                .Where(other => other.collider.CompareTag("Player"))
                 .ThrottleFirst(TimeSpan.FromSeconds(3))
                 .Subscribe(other =>
                 {
-                    var damage = other.gameObject.GetComponent<IDamage>();
-                    if (damage != null) damage.ApplyDamage(enemyAttack.AttackPower);
+                    var damage = other.gameObject.GetComponent<PlayerDamage>();
+                    if (damage != null) damage.ApplyDamage(enemyAttack.CalcDamage());
                 }).AddTo(this);
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace Interface.Character
+﻿using UniRx;
+
+namespace Interface.Character
 {
     /// <summary>
     /// 登場するキャラクターのパラメータ
@@ -16,13 +18,29 @@
         float RunMultiplier { get; }
 
         /// <summary>
+        /// 攻撃力
+        /// </summary>
+        float Attack { get; }
+
+        /// <summary>
         /// HitPoint 体力です
         /// </summary>
-        int Hp { get; set; }
+        IObservable<int> remainHp { get;}
 
         /// <summary>
         /// 死ぬかどうか
         /// </summary>
         bool IsMortal { get; }
+
+        /// <summary>
+        /// ダメージ処理
+        /// </summary>
+        /// <param name="damage"></param>
+        void Dmage(int damage);
+
+        /// <summary>
+        /// 死亡処理
+        /// </summary>
+        void Death();
     }
 }

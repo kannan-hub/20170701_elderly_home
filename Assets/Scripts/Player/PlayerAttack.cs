@@ -1,20 +1,26 @@
-﻿using Interface.Character;
+﻿using Base.Character;
+using Interface.Character;
+using UnityEngine;
 
 namespace Player
 {
     /// <summary>
     /// プレイヤーの攻撃クラス
     /// </summary>
-    public class PlayerAttack : IAttack
+    public class PlayerAttack : AttackBase
     {
-        /// <summary>
-        /// 最終攻撃力
-        /// </summary>
-        public float AttackPower { get; private set; }
+        [SerializeField]
+        private PlayerParameter playerParameter;
 
-        public PlayerAttack(float attackPower)
+        public override IParameter Parameter
         {
-            AttackPower = attackPower;
+            get { return playerParameter; }
+        }
+
+        public override int CalcDamage()
+        {
+            //ひとまずそのまま返す
+            return (int)Parameter.Attack;
         }
     }
 }

@@ -43,7 +43,10 @@ GameObject:
   - component: {fileID: 54121393616395062}
   - component: {fileID: 114557361913857896}
   - component: {fileID: 114961538096110400}
-  - component: {fileID: 114728895087361830}
+  - component: {fileID: 114290809141170634}
+  - component: {fileID: 114471572458351254}
+  - component: {fileID: 114407176266818874}
+  - component: {fileID: 114281091702200122}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -289,6 +292,56 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114281091702200122
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1344758161438576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10b917196cbfcf74898ce1686e205d04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114290809141170634
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1344758161438576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2197bbd351934036a75f753b2ada576b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 100
+  baseSpeed: 2
+  runMultiplier: 2
+  attack: 100
+--- !u!114 &114407176266818874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1344758161438576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f7455eb111a48eb8ee644695aea6573, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerParameter: {fileID: 114290809141170634}
+--- !u!114 &114471572458351254
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1344758161438576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad211d42e8504f15b3a71c51982b9194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerParameter: {fileID: 114290809141170634}
 --- !u!114 &114557361913857896
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -348,17 +401,6 @@ MonoBehaviour:
     slowDownRate: 20
     airControl: 0
     shellOffset: 0
---- !u!114 &114728895087361830
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1344758161438576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10b917196cbfcf74898ce1686e205d04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114961538096110400
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -370,11 +412,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73b6588beec24fb08f8ae570e2b4f702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardSpeed: 2
-  backwardSpeed: 1
-  strafeSpeed: 1.5
-  runMultiplier: 2
-  collisionTrigger: {fileID: 114728895087361830}
+  playerParameter: {fileID: 114290809141170634}
+  playerAttack: {fileID: 114471572458351254}
+  playerDamage: {fileID: 114407176266818874}
+  collisionTrigger: {fileID: 114281091702200122}
 --- !u!124 &124194919250824690
 Behaviour:
   m_ObjectHideFlags: 1
