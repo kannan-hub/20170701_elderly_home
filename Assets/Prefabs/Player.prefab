@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 114471572458351254}
   - component: {fileID: 114407176266818874}
   - component: {fileID: 114281091702200122}
+  - component: {fileID: 114182930960050546}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -292,6 +293,17 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114182930960050546
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1344758161438576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5f30958c5509bc4f9c14ea261a1567c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114281091702200122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -416,6 +428,7 @@ MonoBehaviour:
   playerAttack: {fileID: 114471572458351254}
   playerDamage: {fileID: 114407176266818874}
   collisionTrigger: {fileID: 114281091702200122}
+  mouseTrigger: {fileID: 114182930960050546}
 --- !u!124 &124194919250824690
 Behaviour:
   m_ObjectHideFlags: 1
