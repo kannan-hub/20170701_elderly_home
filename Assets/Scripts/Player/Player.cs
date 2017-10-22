@@ -3,11 +3,12 @@ using Base.Character;
 using Base.Item;
 using Enemy;
 using Interface.Character;
+using Item;
+using UI;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
-using Utility;
 using TimeSpan = System.TimeSpan;
 
 namespace Player
@@ -59,11 +60,18 @@ namespace Player
         }
 
         [SerializeField]
+        private Phone phone;
+        public Phone Phone {get { return phone; }}
+
+        [SerializeField]
         private ObservableCollisionTrigger collisionTrigger;
 
         [HideInInspector]
         private RigidbodyFirstPersonController controller;
 
+        [SerializeField]
+        private UIManager uiManager;
+        
         public List<string> HavingItems { get; private set; }
 
         private ItemBase CurrentTakingItem;
@@ -80,6 +88,8 @@ namespace Player
                 StrafeSpeed = playerParameter.BaseSpeed / 2,
                 RunMultiplier = playerParameter.RunMultiplier
             };
+
+            uiManager.Bind(this);
         }
 
         //ToDo: PlayerAction としてクラス分けすべきかな

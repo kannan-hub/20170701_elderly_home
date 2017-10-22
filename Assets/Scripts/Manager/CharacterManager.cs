@@ -18,8 +18,6 @@ namespace Manager
         {
             player = Instantiate(PlayerPrefab, transform, false).GetComponent<Player.Player>();
             enemy = Instantiate(EnemyPrefab, transform, false).GetComponent<Enemy.Enemy>();
-
-            UIManager.Instance.Bind(player);
         }
     }
 }

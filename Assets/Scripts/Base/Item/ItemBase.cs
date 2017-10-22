@@ -17,7 +17,7 @@ namespace Base.Item
         private ResultType result;
         
         [SerializeField]
-        private ObservableEventTrigger eventTrigger;
+        protected ObservableEventTrigger eventTrigger;
 
         private UniRx.IObservable<ResultType> ItemGetResult()
         {
