@@ -9,6 +9,10 @@ namespace Item
 {
     public class Phone : ItemBase
     {
+        private const string CHARGE_BATTERY_POWER_POINT_TAG = "ChargePoint";
+        private const int CONSUME_BATTERY_POWER_TIME = 1;
+        private const int CHARGE_BATTERY_POWER_TIME = 1;
+
         [SerializeField]
         private Light _cameraLight;
 
@@ -21,7 +25,7 @@ namespace Item
 
         private void Start()
         {
-            Observable.Interval(TimeSpan.FromSeconds(1))
+            Observable.Interval(TimeSpan.FromSeconds(CONSUME_BATTERY_POWER_TIME))
                 .Where(_ => remainBattery.Value > 0)
                 .Subscribe(_ =>
                 {
@@ -29,9 +33,9 @@ namespace Item
                 }).AddTo(this);
 
             eventTrigger.OnTriggerStayAsObservable()
-                .ThrottleFirst(TimeSpan.FromSeconds(1))
+                .ThrottleFirst(TimeSpan.FromSeconds(CHARGE_BATTERY_POWER_TIME))
                 .Where(_ => remainBattery.Value < 99)
-                .Where(x => x.CompareTag("ChargePoint"))
+                .Where(x => x.CompareTag(CHARGE_BATTERY_POWER_POINT_TAG))
                 .Subscribe(_ => remainBattery.Value += 2)
                 .AddTo(this);
 
