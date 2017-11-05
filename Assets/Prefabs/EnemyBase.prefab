@@ -961,6 +961,7 @@ GameObject:
   - component: {fileID: 114008263015515498}
   - component: {fileID: 114073129089863260}
   - component: {fileID: 114277038109049918}
+  - component: {fileID: 114291685964149976}
   m_Layer: 0
   m_Name: EnemyBase
   m_TagString: Enemy
@@ -1992,7 +1993,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1746067342473762}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2001,7 +2002,7 @@ Transform:
   - {fileID: 4485667958471374}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &4704270668336040
 Transform:
   m_ObjectHideFlags: 1
@@ -2540,6 +2541,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10b917196cbfcf74898ce1686e205d04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114291685964149976
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1746067342473762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWhenEnabled: 1
+  pauseWhenDisabled: 0
+  restartWhenComplete: 0
+  logTaskChanges: 0
+  group: 0
+  resetValuesOnRestart: 0
+  externalBehavior: {fileID: 11400000, guid: bf357abd8aabe394ea40214824a07e06, type: 2}
+  mBehaviorSource:
+    behaviorName: Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 00000000
+      JSONSerialization: 
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: f9be55564aaa52567707a104
+        startIndex: 000000000100000002000000
+        dataPosition: 00000000290000002f000000
+        unityObjects: []
+        byteData: 4265686176696f7244657369676e65722e52756e74696d652e53686172656447616d654f626a65637454617267657401
+        byteDataArray: 4265686176696f7244657369676e65722e52756e74696d652e53686172656447616d654f626a65637454617267657401
+      Version: 1.5.11
 --- !u!114 &114411732947056348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2570,10 +2607,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84d6cae7d6264a779b9f34b9c02cdce0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHp: 100
   baseSpeed: 2
   runMultiplier: 1
   attack: 0
-  maxHp: 100
   motal: 1
 --- !u!136 &136936541446257434
 CapsuleCollider:
@@ -2597,6 +2634,7 @@ SkinnedMeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2612,6 +2650,7 @@ SkinnedMeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -2653,6 +2692,7 @@ SkinnedMeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2668,6 +2708,7 @@ SkinnedMeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
