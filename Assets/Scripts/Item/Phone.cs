@@ -33,6 +33,7 @@ namespace Item
                 }).AddTo(this);
 
             eventTrigger.OnTriggerStayAsObservable()
+                .Do(x => Debug.Log("EVenet"))
                 .ThrottleFirst(TimeSpan.FromSeconds(CHARGE_BATTERY_POWER_TIME))
                 .Where(_ => remainBattery.Value < 99)
                 .Where(x => x.CompareTag(CHARGE_BATTERY_POWER_POINT_TAG))

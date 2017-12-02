@@ -79,16 +79,6 @@ namespace Player
         private void Awake()
         {
             HavingItems = new List<string>();
-
-            controller = GetComponent<RigidbodyFirstPersonController>();
-            controller.movementSettings = new RigidbodyFirstPersonController.MovementSettings
-            {
-                ForwardSpeed = playerParameter.BaseSpeed,
-                BackwardSpeed = playerParameter.BaseSpeed / 2,
-                StrafeSpeed = playerParameter.BaseSpeed / 2,
-                RunMultiplier = playerParameter.RunMultiplier
-            };
-
             uiManager.Bind(this);
         }
 
