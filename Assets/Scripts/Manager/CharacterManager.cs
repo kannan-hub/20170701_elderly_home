@@ -16,8 +16,13 @@ namespace Manager
 
         private void Start()
         {
-            player = Instantiate(PlayerPrefab, transform, false).GetComponent<Player.Player>();
-            enemy = Instantiate(EnemyPrefab, transform, false).GetComponent<Enemy.Enemy>();
+            player = GetComponentInChildren<Player.Player>();
+            if (player == null)
+            {
+                player = Instantiate(PlayerPrefab, transform, false).GetComponent<Player.Player>();
+            }
+
+            //enemy = Instantiate(EnemyPrefab, transform, false).GetComponent<Enemy.Enemy>();
         }
     }
 }
